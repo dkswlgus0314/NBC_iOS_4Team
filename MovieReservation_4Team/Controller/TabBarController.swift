@@ -26,7 +26,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         let searchNavController = UINavigationController(rootViewController: searchViewController)
         searchNavController.tabBarItem = UITabBarItem(title: "Search", image: UIImage(systemName: "magnifyingglass"), tag: 1)
         
-        let reservaitionViewController = ReservaitionController()
+        let reservaitionViewController = ReservationController()
         let reservaitionNavController = UINavigationController(rootViewController: reservaitionViewController)
         reservaitionNavController.tabBarItem = UITabBarItem(title: "Reservation", image: UIImage(systemName: "ticket"), tag: 2)
 

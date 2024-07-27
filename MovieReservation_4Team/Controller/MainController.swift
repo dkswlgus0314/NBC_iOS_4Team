@@ -3,7 +3,8 @@ import UIKit
 class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIPickerViewDataSource, UIPickerViewDelegate {
     
     // MARK: - Properties
-    
+    private var movies: [Movie] = []
+
     let mainView = MainView() // MainView 인스턴스
     
     // 각 컬렉션 뷰에 표시될 영화 데이터 배열
@@ -246,9 +247,17 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier(for: collectionView), for: indexPath)
-        cell.contentView.subviews.forEach { $0.removeFromSuperview() }
-        
+
+        // 셀의 컨텐츠 뷰에서 이미지 뷰를 가져옵니다.
+        let imageView = UIImageView()
+        cell.contentView.addSubview(imageView)
+        imageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+
         let movie: Movie
+
+        // 데이터 소스에서 영화 정보를 가져옵니다.
         switch collectionView {
         case mainView.firstCollectionView:
             movie = firstCollectionViewMovies[indexPath.item]
@@ -261,27 +270,29 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         default:
             movie = selectedCategoryMovies[indexPath.item]
         }
-        
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 10 // 외곽을 살짝 둥글게 설정
-        
-        // 첫 번째 컬렉션 뷰는 가로 이미지, 나머지는 세로 포스터
+
+        // 이미지 URL을 설정하고 비동기적으로 이미지를 로드합니다.
         if collectionView == mainView.firstCollectionView, let backdropPath = movie.backdropPath {
             let imageUrl = "https://image.tmdb.org/t/p/w500\(backdropPath)"
-            NetworkManager.shared.loadImage(from: imageUrl, into: imageView)
+            NetworkManager.shared.loadImage(from: imageUrl) { image in
+                DispatchQueue.main.async {
+                    imageView.image = image
+                    imageView.contentMode = .scaleAspectFill // 가로 이미지의 경우 비율 유지
+                }
+            }
         } else if let posterPath = movie.posterPath {
             let imageUrl = "https://image.tmdb.org/t/p/w500\(posterPath)"
-            NetworkManager.shared.loadImage(from: imageUrl, into: imageView)
+            NetworkManager.shared.loadImage(from: imageUrl) { image in
+                DispatchQueue.main.async {
+                    imageView.image = image
+                    imageView.contentMode = .scaleAspectFill // 세로 포스터의 경우 비율 유지
+                }
+            }
         }
-        cell.contentView.addSubview(imageView)
-        imageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+
         return cell
     }
-    
+
     private func cellIdentifier(for collectionView: UICollectionView) -> String {
         switch collectionView {
         case mainView.firstCollectionView:

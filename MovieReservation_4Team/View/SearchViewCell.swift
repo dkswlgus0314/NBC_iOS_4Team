@@ -64,9 +64,17 @@ class MovieCollectionViewCell: UICollectionViewCell {
 
     func configure(with movie: Movie) {
         titleLabel.text = movie.title
+
         if let posterPath = movie.posterPath {
             let imageUrl = "https://image.tmdb.org/t/p/w500\(posterPath)"
-            NetworkManager.shared.loadImage(from: imageUrl, into: imageView)
+
+            // 이미지 로드
+            NetworkManager.shared.loadImage(from: imageUrl) { [weak self] image in
+                // 메인 스레드에서 UI 업데이트
+                DispatchQueue.main.async {
+                    self?.imageView.image = image
+                }
+            }
         } else {
             imageView.image = nil
         }

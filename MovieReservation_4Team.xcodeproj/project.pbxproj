@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2703FCF32C552C22002D82A9 /* MovieUserData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2703FCF12C552C22002D82A9 /* MovieUserData.xcdatamodeld */; };
+		2703FCF52C552CB6002D82A9 /* ReservationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2703FCF42C552CB6002D82A9 /* ReservationManager.swift */; };
 		270A84A12C4E543C00B61721 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A84A02C4E543C00B61721 /* MainView.swift */; };
 		270A84A42C4E546E00B61721 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A84A32C4E546E00B61721 /* SignUpView.swift */; };
 		270A84A62C4E547C00B61721 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270A84A52C4E547C00B61721 /* LoginView.swift */; };
@@ -39,7 +41,6 @@
 		5F7278962C5096400033B94E /* MovieInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7278952C5096400033B94E /* MovieInfoViewController.swift */; };
 		5F741EB32C51633B00E92867 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F741EB22C51633B00E92867 /* ModalViewController.swift */; };
 		5FA354DC2C537D920078A6FF /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA354DB2C537D920078A6FF /* Genre.swift */; };
-		5FA354E52C53D3A10078A6FF /* MovieUserData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5FA354E32C53D3A10078A6FF /* MovieUserData.xcdatamodeld */; };
 		5FA354ED2C54CFE30078A6FF /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA354EC2C54CFE30078A6FF /* UserDataManager.swift */; };
 		C26C08182C4F324B009F5B06 /* UIFont+Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26C08172C4F324B009F5B06 /* UIFont+Resource.swift */; };
 		C26C081D2C4F3407009F5B06 /* LINESeedKR-Bd.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C26C08192C4F3407009F5B06 /* LINESeedKR-Bd.ttf */; };
@@ -57,6 +58,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2703FCF22C552C22002D82A9 /* MovieUserData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieUserData.xcdatamodel; sourceTree = "<group>"; };
+		2703FCF42C552CB6002D82A9 /* ReservationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationManager.swift; sourceTree = "<group>"; };
 		270A84A02C4E543C00B61721 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		270A84A32C4E546E00B61721 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		270A84A52C4E547C00B61721 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -89,7 +92,6 @@
 		5F7278952C5096400033B94E /* MovieInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfoViewController.swift; sourceTree = "<group>"; };
 		5F741EB22C51633B00E92867 /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		5FA354DB2C537D920078A6FF /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
-		5FA354E42C53D3A10078A6FF /* MovieUserData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieUserData.xcdatamodel; sourceTree = "<group>"; };
 		5FA354EC2C54CFE30078A6FF /* UserDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		C26C08172C4F324B009F5B06 /* UIFont+Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Resource.swift"; sourceTree = "<group>"; };
 		C26C08192C4F3407009F5B06 /* LINESeedKR-Bd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LINESeedKR-Bd.ttf"; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				5FA354EC2C54CFE30078A6FF /* UserDataManager.swift */,
 				5F7278622C4F2FCB0033B94E /* NetworkManager.swift */,
 				270A84BC2C4E6C1500B61721 /* FavoriteManager.swift */,
+				2703FCF42C552CB6002D82A9 /* ReservationManager.swift */,
 			);
 			path = Manage;
 			sourceTree = "<group>";
@@ -183,7 +186,7 @@
 				272ADB782C53980500748904 /* FavoriteMovie+CoreDataProperties.swift */,
 				C2D6DBF32C52179500C2C928 /* UserData+CoreDataClass.swift */,
 				C2D6DBF42C52179500C2C928 /* UserData+CoreDataProperties.swift */,
-				5FA354E32C53D3A10078A6FF /* MovieUserData.xcdatamodeld */,
+				2703FCF12C552C22002D82A9 /* MovieUserData.xcdatamodeld */,
 				276B93D02C4E103C00170CBF /* MovieReservation_4Team */,
 				276B93CF2C4E103C00170CBF /* Products */,
 			);
@@ -325,7 +328,7 @@
 				C26C08372C509588009F5B06 /* CustomTableViewCell.swift in Sources */,
 				270A84A82C4E549200B61721 /* SearchView.swift in Sources */,
 				276B93D22C4E103C00170CBF /* AppDelegate.swift in Sources */,
-				5FA354E52C53D3A10078A6FF /* MovieUserData.xcdatamodeld in Sources */,
+				2703FCF32C552C22002D82A9 /* MovieUserData.xcdatamodeld in Sources */,
 				C29F6C3C2C4FC16F0081FA15 /* ReservaitionController.swift in Sources */,
 				272ADB792C53980500748904 /* Reservationticket+CoreDataClass.swift in Sources */,
 				272ADB7A2C53980500748904 /* Reservationticket+CoreDataProperties.swift in Sources */,
@@ -352,6 +355,7 @@
 				27856A9D2C52890B0055DCF5 /* SearchViewCell.swift in Sources */,
 				5F7278942C508D1E0033B94E /* NetworkManagerMock.swift in Sources */,
 				270A84BA2C4E6BE300B61721 /* MainController.swift in Sources */,
+				2703FCF52C552CB6002D82A9 /* ReservationManager.swift in Sources */,
 				270A84B02C4E554200B61721 /* ReservaitionView.swift in Sources */,
 				5FA354DC2C537D920078A6FF /* Genre.swift in Sources */,
 				5F7278922C508ACF0033B94E /* MovieDetail.swift in Sources */,
@@ -601,14 +605,14 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		5FA354E32C53D3A10078A6FF /* MovieUserData.xcdatamodeld */ = {
+		2703FCF12C552C22002D82A9 /* MovieUserData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				5FA354E42C53D3A10078A6FF /* MovieUserData.xcdatamodel */,
+				2703FCF22C552C22002D82A9 /* MovieUserData.xcdatamodel */,
 			);
-			currentVersion = 5FA354E42C53D3A10078A6FF /* MovieUserData.xcdatamodel */;
+			currentVersion = 2703FCF22C552C22002D82A9 /* MovieUserData.xcdatamodel */;
 			name = MovieUserData.xcdatamodeld;
-			path = /Users/ahnzihyeon/Desktop/sparta/Sparta_Project/NBC_iOS_4Team/MovieUserData.xcdatamodeld;
+			path = "/Users/t2023-m0023/Desktop/LJH_ios4th/NBC_iOS_4Team/MovieUserData.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

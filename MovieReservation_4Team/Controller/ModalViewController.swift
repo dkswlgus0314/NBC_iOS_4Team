@@ -120,8 +120,8 @@ class ModalViewController: UIViewController {
         datePicker.addTarget(self, action: #selector(dateChange), for: .valueChanged)
         
         // label에 오늘 날짜로 표시되게 설정
-        dateLabel.text = dateFormat(date: Date())
-        
+        dateLabel.text = dateToString(date: Date())
+
         
         //오토레이아웃
         titleLabel.snp.makeConstraints {
@@ -157,7 +157,7 @@ class ModalViewController: UIViewController {
     @objc
     func dateChange(_ sender: UIDatePicker) {
         // 값이 변하면 UIDatePicker에서 날짜를 받아와 형식을 변형해서 Lable에 넣어준다.
-        reservationDate = dateFormat(date: sender.date)
+        reservationDate = dateToString(date: sender.date)
         dateLabel.text = "예매 일정 : \(reservationDate)"
     }
     
@@ -177,28 +177,52 @@ class ModalViewController: UIViewController {
     }
     
     //예약하기 버튼 클릭 시 영화 정보 전달
-    @objc
-    private func reservationButtonTapped(){
+    @objc private func reservationButtonTapped() {
+        guard let user = UserDataManager.shared.getCurrentLoggedInUser() else {
+            print("로그인된 사용자를 찾을 수 없습니다.")
+            return
+        }
 
-        let reservationVC = ReservaitionController()
-        
-        //옵셔널 타입이라 바인딩해서 사용할 것. 값이 없을 때 처리 필요.
-        let userReservationData = (movieId: userMovieId ?? 0, count: numberOfPeople, date: reservationDate)
-        
-        //🌟ReservationController에서 위의 데이터를 받아 사용하세요!!
-        print(userReservationData)
+        guard let movieId = userMovieId else {
+            print("유효한 영화 ID를 입력하세요.")
+            return
+        }
+
+        let count = numberOfPeople
+            guard let date = dateFromString(reservationDate) else {
+                print("날짜 형식이 올바르지 않습니다.")
+                return
+            }
+
+        // 예매 정보를 저장
+        ReservationManager.shared.saveReservation(
+              movieID: movieId,
+              quantity: Int32(count),
+              date: date,
+              userId: user.id ?? "" // 기본값으로 빈 문자열을 사용
+          )
+
+        // 예매 정보 출력
+        print("예매 정보가 저장되었습니다. 영화 ID: \(movieId), 수량: \(count), 날짜: \(date)")
+
+        // ReservationController로 이동
+        let reservationVC = ReservationController()
         navigationController?.pushViewController(reservationVC, animated: true)
     }
-    
+
     
     
     // 텍스트 필드에 들어갈 텍스트를 DateFormatter 변환
-    private func dateFormat(date: Date) -> String {
+    private func dateFromString(_ dateString: String) -> Date? {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy / MM / dd HH:mm"
-        
+        formatter.dateFormat = "yyyy / MM / dd HH:mm" // 날짜 형식에 맞게 설정
+        return formatter.date(from: dateString)
+    }
+
+    private func dateToString(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy / MM / dd HH:mm" // 날짜 형식에 맞게 설정
         return formatter.string(from: date)
     }
-    
-    
+
 }
