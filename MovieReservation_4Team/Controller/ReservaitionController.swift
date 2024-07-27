@@ -4,92 +4,122 @@
 //
 //  Created by t2023-m0112 on 7/23/24.
 //
-
 import UIKit
 import SnapKit
+import CoreData
 
-class ReservaitionController: UIViewController {
-    
-    // 사용자가 선택한 영화의 id.
-    // 1. 모델 정의
-    struct Reservation {
-        let movieId: Int
-        let count: Int
-        let date: Date
-    }
-    
-    // 2. 저장된 데이터 정의
-    let storedReservations: [Reservation] = [
-        Reservation(movieId: 1, count: 2, date: Date()),
-        Reservation(movieId: 2, count: 4, date: Date().addingTimeInterval(86400)),
-        // 필요에 따라 더 많은 데이터를 추가하세요.
-    ]
-    
-    // 3. 사용자 예약 데이터 바인딩
-    private var userReservationData: (movieId: Int, count: Int, date: Date) = (0, 0, Date())
-    
+class ReservationController: UIViewController {
+
     private let reservaitionView: ReservaitionView = {
         let view = ReservaitionView()
-        view.backgroundColor = .clear // 배경색 조정
+        view.backgroundColor = UIColor.mainBlack
         return view
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Reservation"
         setupUI()
         configureView()
-        
-        // 4. 데이터 바인딩
-        bindUserReservationData()
-        
-        // 5. 바인딩된 데이터 사용
-        print("Movie ID: \(userReservationData.movieId), Count: \(userReservationData.count), Date: \(userReservationData.date)")
-        
-        // 6. 데이터에 따라 UI 업데이트
-        updateUIBasedOnReservationData()
+        loadReservationData()
     }
-    
+
     private func setupUI() {
         view.addSubview(reservaitionView)
         reservaitionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
-    
+
     private func configureView() {
-        if let ticketImage = UIImage(named: "ticket"),
-           let movieImage = UIImage(named: "image1") {
-            reservaitionView.configure(with: ticketImage, movieImage: movieImage)
-        } else {
-            print("One or more images not found")
+        let posterUrlString = "https://api.example.com/path/to/poster" // 포스터 이미지의 URL
+
+        NetworkManager.shared.loadImage(from: posterUrlString) { image in
+            DispatchQueue.main.async {
+                if let image = image {
+                    self.reservaitionView.configure(with: image)
+                    print("영화 포스터 이미지를 성공적으로 로드했습니다.")
+                } else {
+                    print("영화 포스터 이미지 로드에 실패했습니다.")
+                }
+            }
         }
     }
-    
-    private func bindUserReservationData() {
-        let userReservation: Reservation? = fetchUserReservation()
-        
-        if let reservation = userReservation {
-            userReservationData = (movieId: reservation.movieId, count: reservation.count, date: reservation.date)
-        } else {
-            // 값이 없을 때 처리
-            userReservationData = (movieId: 0, count: 0, date: Date())
+
+    private func getCurrentUserId() -> String? {
+        let fetchRequest: NSFetchRequest<UserData> = UserData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "isLoggedIn == %@", NSNumber(value: true))
+
+        do {
+            let results = try UserDataManager.shared.context.fetch(fetchRequest)
+            if let userId = results.first?.id {
+                print("로그인된 사용자 ID: \(userId)")
+                return userId
+            } else {
+                print("로그인된 사용자가 없습니다.")
+                return nil
+            }
+        } catch {
+            print("현재 사용자를 가져오는 데 실패했습니다: \(error)")
+            return nil
         }
     }
-    
-    // 4. 데이터를 가져오는 함수
-    private func fetchUserReservation() -> Reservation? {
-        // 필요한 로직을 사용하여 데이터를 가져옵니다.
-        // 예를 들어, 특정 조건에 맞는 데이터를 가져올 수 있습니다.
-        return storedReservations.first { $0.movieId == 1 }
-    }
-    
-    private func updateUIBasedOnReservationData() {
-        if userReservationData.movieId == 0 && userReservationData.count == 0 {
-            reservaitionView.showNoReservationMessage()
-        } else {
-            reservaitionView.hideNoReservationMessage()
+
+    private func loadReservationData() {
+        guard let userId = getCurrentUserId() else {
+            print("로그인된 사용자를 찾을 수 없습니다.")
+            return
         }
+
+        let reservations = ReservationManager.shared.fetchReservations(for: userId)
+
+        if reservations.isEmpty {
+            reservaitionView.updateReservationInfo(with: nil)
+            print("예매된 영화가 없습니다.")
+        } else {
+            for reservation in reservations {
+                fetchMovieDetail(movieId: reservation.movieID ?? "") { movieDetail in
+                    guard let movieDetail = movieDetail else {
+                        print("영화 세부 정보를 가져오는 데 실패했습니다.")
+                        return
+                    }
+
+                    let posterUrlString = "https://image.tmdb.org/t/p/w500\(movieDetail.posterPath ?? "")"
+
+                    NetworkManager.shared.loadImage(from: posterUrlString) { image in
+                        DispatchQueue.main.async {
+                            if let image = image {
+                                self.reservaitionView.configure(with: image)
+                                print("영화 포스터 이미지를 성공적으로 로드했습니다.")
+                            } else {
+                                print("영화 포스터 이미지 로드에 실패했습니다.")
+                            }
+                        }
+                    }
+
+                    DispatchQueue.main.async {
+                        // Reservationticket을 ReservaitionView.Reservation으로 변환
+                        let reservationData = ReservaitionView.Reservation(
+                            movieID: reservation.movieID,
+                            date: reservation.date,
+                            quantity: Int(reservation.quantity) // Core Data에서의 quantity는 Int32 타입입니다.
+                        )
+                        self.reservaitionView.updateReservationInfo(with: reservationData)
+                    }
+                }
+            }
+        }
+    }
+
+    private func fetchMovieDetail(movieId: String, completion: @escaping (MovieDetail?) -> Void) {
+        guard let movieIdInt = Int(movieId) else {
+            print("유효하지 않은 영화 ID: \(movieId)")
+            completion(nil)
+            return
+        }
+
+        NetworkManager.shared.fetchMovieDetail(movieId: movieIdInt, completion: completion)
     }
 }
-#Preview("ReservaitionController") { ReservaitionController() }
+
+#Preview("ReservationController") { ReservationController() }
