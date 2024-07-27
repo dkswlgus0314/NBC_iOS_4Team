@@ -6,7 +6,8 @@ class MovieInfoViewController: UIViewController {
     
     //main뷰컨에서 선택된 영화의 id.
     var userMovieId = 0  //현재 선택된 영화ID
-    
+    var isLike = false // 사용자가 좋아요를 눌렀는지 확인하기 위한 변수
+    var movieLike: FavoriteMovie? = nil // 사용자가 좋아요를 눌러놨을 경우 가져올 FavoriteMovie데이터
     
     override func loadView() {
         view = movieInfoView
@@ -16,18 +17,16 @@ class MovieInfoViewController: UIViewController {
         super.viewDidLoad()
         
         movieInfoView.reservationButton.addTarget(self, action: #selector(showModal), for: .touchDown)
-        
         movieInfoView.likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchDown)
         
-        // 즐겨찾기 상태 업데이트
-             
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-          super.viewWillAppear(animated)
-          // 화면이 나타날 때마다 즐겨찾기 상태 업데이트
-         
-      }
+        super.viewWillAppear(animated)
+        // 화면이 나타날 때마다 즐겨찾기 상태 업데이트
+        likeButtonSetting()
+    }
     
     //MARK: -@objc
     // [예약하기] 버튼 클릭 시 모달 띄우기
@@ -42,47 +41,46 @@ class MovieInfoViewController: UIViewController {
     }
     
     
-    // [즐겨찾기] 버튼 클릭 시 코어데이터에 추가 또는 삭제
-    @objc func likeButtonTapped() {
+    // 좋아요를 눌렀는지 확인하고 하트 이미지를 세팅해줄 변수
+      func likeButtonSetting() {
         guard let user = UserDataManager.shared.getCurrentLoggedInUser() else {
             print("로그인된 유저 정보를 찾을 수 없습니다.")
-            return
+          return
         }
-        
-        let context = FavoriteManager.shared.persistentContainer.viewContext
-        let movieID = String(userMovieId) // 영화 ID를 문자열로 변환
-        
-        let fetchRequest: NSFetchRequest<FavoriteMovie> = FavoriteMovie.fetchRequest()
-        // UserData의 id를 사용하여 비교합니다.
-        fetchRequest.predicate = NSPredicate(format: "movieID == %@ AND user.id == %@", movieID, user.id!)
-        
-        do {
-            let results = try context.fetch(fetchRequest)
-            if let favoriteMovie = results.first {
-                if favoriteMovie.isLiked {  //false라면
-                    // 즐겨찾기에서 제거
-                    FavoriteManager.shared.deleteFavoriteMovie(favorite: favoriteMovie)
-                    movieInfoView.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-                    print("🍀🍀🍀즐겨찾기 삭제!!🍀🍀🍀 ")
-                } else {
-                    // 즐겨찾기에 추가
-                    favoriteMovie.isLiked = true
-                    FavoriteManager.shared.saveContext()
-                    movieInfoView.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                    print("🌟🌟🌟즐겨찾기 추가!!🌟🌟🌟 ")
-                }
-            } else {
-                // 새로운 즐겨찾기 영화 생성
-                FavoriteManager.shared.addFavoriteMovie(movieID: movieID, user: user)
-                movieInfoView.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                print("🌟🌟🌟새로운 즐겨찾기 영화 생성???🌟🌟🌟 ")
-                print()
+        let movie = String(userMovieId) // 영화 ID를 문자열로 변환
+        if let favorites = user.favorites?.allObjects as? [FavoriteMovie] {
+          for i in favorites {
+            if let movieId = i.movieID, movie == movieId {
+                print("저장된 데이터 영화ID :", movieId)
+              movieLike = i
+              isLike = true
+              break
             }
-            
-        } catch {
-            print("Failed to fetch favorite movie: \(error.localizedDescription)")
+          }
         }
-    }
+        if isLike {
+            movieInfoView.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            movieInfoView.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
+      }
+    // [즐겨찾기] 버튼 클릭 시 코어데이터에 추가 또는 삭제
+      @objc func likeButtonTapped() {
+        guard let user = UserDataManager.shared.getCurrentLoggedInUser() else {
+            print("로그인된 유저 정보를 알 수 없습니다.")
+          return
+        }
+        if let movieLike = movieLike, isLike {
+          isLike = false
+          self.movieLike = nil
+          FavoriteManager.shared.deleteFavoriteMovie(favorite: movieLike)
+                print(":네잎클로버::네잎클로버::네잎클로버:즐겨찾기 삭제!!:네잎클로버::네잎클로버::네잎클로버: ")
+        } else {
+          FavoriteManager.shared.addFavoriteMovie(movieID: String(userMovieId), user: user)
+            print(":별2::별2::별2:즐겨찾기 추가!!:별2::별2::별2: ")
+        }
+        likeButtonSetting()
+      }
     
     
     

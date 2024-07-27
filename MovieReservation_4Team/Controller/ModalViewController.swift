@@ -31,6 +31,8 @@ class ModalViewController: UIViewController {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "날짜/시간/인원 선택"
+        label.font = FontNames.mainFont.font()
+        label.textColor = UIColor.mainBlack
         return label
     }()
     
@@ -50,12 +52,23 @@ class ModalViewController: UIViewController {
         return label
     }()
     
+    //인원 텍스트 라벨
+    var quantityLabel: UILabel = {
+       let label = UILabel()
+        label.text = "예매 수량"
+        label.font = FontNames.subFont2.font()
+        label.textColor = UIColor.mainBlack
+        return label
+    }()
+    
     // + 버튼
     lazy var plusButton: UIButton = {
         let button = UIButton()
         button.setTitle("+", for: .normal)
         button.setTitleColor(.mainWhite, for: .normal)
         button.backgroundColor = .mainBlack
+        button.layer.cornerRadius = 8
+     
         button.addTarget(self, action: #selector(plusButtonTapped), for: .touchDown)
         return button
     }()
@@ -65,6 +78,7 @@ class ModalViewController: UIViewController {
         let label = UILabel()
         label.text = "0"
         label.textAlignment = .center
+        label.font = FontNames.mainFont.font()
         return label
     }()
     
@@ -74,6 +88,7 @@ class ModalViewController: UIViewController {
         button.setTitle("-", for: .normal)
         button.setTitleColor(.mainWhite, for: .normal)
         button.backgroundColor = .mainBlack
+       button.layer.cornerRadius = 8
         button.addTarget(self, action: #selector(minusButtonTapped), for: .touchDown)
         return button
     }()
@@ -113,7 +128,7 @@ class ModalViewController: UIViewController {
         
         [minusButton, countLabel, plusButton].forEach { buttonsStackView.addArrangedSubview($0) }
         
-        [titleLabel, datePicker, dateLabel, buttonsStackView, reservationButton].forEach { view.addSubview($0)}
+        [titleLabel, datePicker, dateLabel, quantityLabel, buttonsStackView, reservationButton].forEach { view.addSubview($0)}
         
         
         // 값이 변할 때마다 동작을 설정해 줌
@@ -140,13 +155,18 @@ class ModalViewController: UIViewController {
             $0.leading.equalToSuperview().inset(24)
         }
         
+        quantityLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(24)
+            $0.bottom.equalTo(buttonsStackView.snp.bottom)
+        }
+        
         buttonsStackView.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(24)
-            $0.top.equalTo(dateLabel.snp.top).offset(24)
+            $0.bottom.equalTo(reservationButton.snp.top).offset(24)
         }
         
         reservationButton.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview().inset(-24)
+            $0.leading.trailing.bottom.equalToSuperview().inset(24)
             $0.height.equalTo(50)
         }
         
@@ -202,3 +222,6 @@ class ModalViewController: UIViewController {
     
     
 }
+
+#Preview("ModalViewController") {ModalViewController()}
+
