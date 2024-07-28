@@ -39,6 +39,7 @@ extension UserData {
     @objc(removeReservations:)
     @NSManaged public func removeFromReservations(_ values: NSOrderedSet)
 
+    
     // 즐겨찾기
     @objc(addFavoriteMoviesObject:)
     @NSManaged public func addToFavoriteMovies(_ value: FavoriteMovie)
@@ -51,6 +52,11 @@ extension UserData {
 
     @objc(removeFavoriteMovies:)
     @NSManaged public func removeFromFavoriteMovies(_ values: NSOrderedSet)
+
+    func removeFavoriteMovie(_ favoriteMovie: FavoriteMovie) {
+           let mutableFavorites = self.mutableOrderedSetValue(forKey: "favorites")
+           mutableFavorites.remove(favoriteMovie)
+       }
 }
 
 extension UserData : Identifiable {}

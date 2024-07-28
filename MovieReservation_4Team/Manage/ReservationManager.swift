@@ -1,24 +1,19 @@
-//
-//  ReservationManager.swift
-//  MovieReservation_4Team
-//
-//  Created by t2023-m0023 on 7/26/24.
-//
-//
-//date: Date?
-// movieID: String?
-// quantity: Int32
-//reservationID: UUID?
-//user: UserData?
-
 import UIKit
 import CoreData
+
+
+extension Notification.Name {
+    static let reservationsUpdated = Notification.Name("reservationsUpdated")
+}
+
 class ReservationManager {
-
     static let shared = ReservationManager()
-
     private let userDataManager = UserDataManager.shared
 
+    var context: NSManagedObjectContext {
+           return userDataManager.context
+       }
+    
     // 영화 예매 정보 저장
     func saveReservation(movieID: Int, quantity: Int32, date: Date, userId: String) {
         let context = userDataManager.context
@@ -47,20 +42,24 @@ class ReservationManager {
 
             // 저장 후 로그 출력
             saveReservationContext()
-            print("영화 ID \(movieID)에 대한 예약이 성공적으로 저장되었습니다. 수량: \(quantity), 날짜: \(date)")
+            print("영화 ID \(movieID)에 대한 예약이 성공적으로 저장되었습니다. 수량: \(quantity), 날짜: \(date), UUID: \(newReservation.reservationID!.uuidString)")
 
             // 저장된 예약을 출력
             let reservations = fetchReservations(for: userId)
-            print("저장된 예약 내역: \(reservations)")
+            print("저장된 예약 내역: \(reservations.map { $0.reservationID?.uuidString ?? "unknown" })")
+
+            NotificationCenter.default.post(name: .reservationsUpdated, object: nil)
 
         } catch {
             print("사용자 조회 또는 예약 저장 실패: \(error)")
         }
+
     }
 
     private func saveReservationContext() {
         do {
             try userDataManager.context.save()
+            print("Context 저장 성공") // 💖 저장 성공 확인
         } catch {
             if let nserror = error as? NSError {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
@@ -95,11 +94,14 @@ class ReservationManager {
             return []
         }
     }
-    
+
     // 예매 내역 삭제
     func removeReservation(_ reservation: Reservationticket) {
         userDataManager.context.delete(reservation)
         saveReservationContext()
+
+        // 데이터가 변경되었음을 알리는 알림 전송
+        NotificationCenter.default.post(name: .reservationsUpdated, object: nil)
     }
 
     // 다수 예매 내역 삭제

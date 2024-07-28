@@ -4,8 +4,8 @@ import SnapKit
 class ReservationCell: UICollectionViewCell {
     static let identifier = "ReservationCell"
 
-    private let reservaitionView: ReservaitionView = {
-        let view = ReservaitionView()
+    private let reservationView: ReservationView = {
+        let view = ReservationView()
         return view
     }()
 
@@ -19,14 +19,15 @@ class ReservationCell: UICollectionViewCell {
     }
 
     private func setupUI() {
-        contentView.addSubview(reservaitionView)
-        reservaitionView.snp.makeConstraints {
+        contentView.addSubview(reservationView)
+        reservationView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(10)
         }
     }
 
-    func configure(with reservation: ReservaitionView.Reservation, movieImage: UIImage?) {
-        reservaitionView.configure(with: movieImage)
-        reservaitionView.updateReservationInfo(with: reservation)
+    func configure(with reservation: ReservationView.Reservation, movieImage: UIImage?, delegate: ReservationViewDelegate) {
+        reservationView.configure(with: movieImage)
+        reservationView.updateReservationInfo(with: reservation)
+        reservationView.delegate = delegate
     }
 }

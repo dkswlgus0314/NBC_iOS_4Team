@@ -108,6 +108,7 @@ class FavoritesViewCell: UICollectionViewCell {
     @objc private func toggleFavorite() {
         favoriteButton.isSelected.toggle()
         delegate?.didToggleFavorite(cell: self)
+        print("toggleFavorite 호출됨") 
     }
 
     // 셀 데이터 설정

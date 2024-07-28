@@ -59,12 +59,13 @@ class FavoriteManager {
     }
     
     // 즐겨찾기 삭제
-    func deleteFavoriteMovie(favorite: FavoriteMovie) {
-        let context = persistentContainer.viewContext
-        context.delete(favorite)
-        saveContext()
-    }
-    
+        func deleteFavoriteMovie(favorite: FavoriteMovie) {
+            let context = persistentContainer.viewContext
+            context.delete(favorite)
+            saveContext()
+            print("Deleted favorite movie with ID: \(favorite.movieID ?? "unknown")") // 🔥 수정필요 삭제 확인
+        }
+
     // 즐겨찾기 리스트 불러오기
     func fetchFavoriteMovies(for user: UserData) -> [FavoriteMovie]? {
         let context = persistentContainer.viewContext
