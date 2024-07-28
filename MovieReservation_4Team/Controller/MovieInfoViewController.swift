@@ -26,7 +26,9 @@ class MovieInfoViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     // 화면이 나타날 때마다 즐겨찾기 상태 업데이트
+      var isLike = false
     likeButtonSetting()
+      
    }
 
   //MARK: -@objc
