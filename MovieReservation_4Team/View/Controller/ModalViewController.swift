@@ -62,16 +62,7 @@ class ModalViewController: UIViewController {
         label.textColor = UIColor.mainBlack
         return label
     }()
-    
-    //인원 텍스트 라벨
-    var quantityLabel: UILabel = {
-       let label = UILabel()
-        label.text = "예매 수량"
-        label.font = FontNames.subFont2.font()
-        label.textColor = UIColor.mainBlack
-        return label
-    }()
-    
+
     // + 버튼
     lazy var plusButton: UIButton = {
         let button = UIButton()
