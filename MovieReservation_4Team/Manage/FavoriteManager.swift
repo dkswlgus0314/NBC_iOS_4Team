@@ -73,7 +73,12 @@ class FavoriteManager {
         
         do {
             let favoriteMovies = try context.fetch(fetchRequest)
-            print("🔥fetchFavoriteMovies: \(favoriteMovies)")
+//            print("🔥fetchFavoriteMovies: \(favoriteMovies)")
+            
+            // favoriteMovies의 movieID 배열 생성
+                   let movieIDs = favoriteMovies.compactMap { $0.movieID }
+                   print("🔥 Favorite Movie IDs: \(movieIDs)")
+            
             return favoriteMovies
         } catch {
             print("Failed to fetch favorite movies: \(error.localizedDescription)")
