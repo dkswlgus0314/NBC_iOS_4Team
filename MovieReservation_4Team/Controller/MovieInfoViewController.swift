@@ -36,6 +36,7 @@ class MovieInfoViewController: UIViewController {
         modalVc.userMovieId = self.userMovieId
         if let modal = modalVc.sheetPresentationController {
             modal.detents = [.medium()]
+            modal.largestUndimmedDetentIdentifier = .medium  //뒷배경 흐리게 
         }
         present(modalVc, animated: true)
     }
@@ -48,7 +49,7 @@ class MovieInfoViewController: UIViewController {
           return
         }
         let movie = String(userMovieId) // 영화 ID를 문자열로 변환
-        if let favorites = user.favorites?.allObjects as? [FavoriteMovie] {
+        if let favorites = user.favorites as? [FavoriteMovie] {
           for i in favorites {
             if let movieId = i.movieID, movie == movieId {
                 print("저장된 데이터 영화ID :", movieId)
