@@ -63,6 +63,15 @@ class ModalViewController: UIViewController {
         return label
     }()
     
+    //인원 텍스트 라벨
+    var quantityLabel: UILabel = {
+       let label = UILabel()
+        label.text = "예매 수량"
+        label.font = FontNames.subFont2.font()
+        label.textColor = UIColor.mainBlack
+        return label
+    }()
+    
     // + 버튼
     lazy var plusButton: UIButton = {
         let button = UIButton()
@@ -160,6 +169,11 @@ class ModalViewController: UIViewController {
         quantityLabel.snp.makeConstraints {
             $0.top.equalTo(dateLabel.snp.bottom).offset(40)
             $0.leading.equalTo(dateLabel)
+        }
+        
+        quantityLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(24)
+            $0.bottom.equalTo(buttonsStackView.snp.bottom)
         }
         
         buttonsStackView.snp.makeConstraints {
@@ -298,4 +312,6 @@ class ModalViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 }
+
+#Preview("ModalViewController") {ModalViewController()}
 
