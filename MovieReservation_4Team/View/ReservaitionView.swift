@@ -105,12 +105,12 @@ class ReservaitionView: UIView {
         return label
     }()
 
-    let deletedButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "xbutton"), for: .normal)
-        button.addTarget(self, action: #selector(deletedButtonTapped), for: .touchUpInside)
-        return button
-    }()
+//    let deletedButton: UIButton = {
+//        let button = UIButton()
+//        button.setImage(UIImage(named: "xbutton"), for: .normal)
+//        button.addTarget(self, action: #selector(deletedButtonTapped), for: .touchUpInside)
+//        return button
+//    }()
 
 
     // MARK: - 초기화
@@ -134,7 +134,7 @@ class ReservaitionView: UIView {
             ticketQuantityLabel,
             separatorLine1,
             separatorLine2,
-            deletedButton
+//            deletedButton
         ].forEach { self.addSubview($0) }
 
         ticketImageView.snp.makeConstraints {
@@ -185,16 +185,16 @@ class ReservaitionView: UIView {
             $0.centerX.equalToSuperview()
         }
 
-        deletedButton.snp.makeConstraints {
-            $0.top.equalTo(ticketImageView.snp.bottom).offset(10)
-            $0.height.width.equalTo(35)
-            $0.centerX.equalToSuperview()
-        }
+//        deletedButton.snp.makeConstraints {
+//            $0.top.equalTo(ticketImageView.snp.bottom).offset(10)
+//            $0.height.width.equalTo(35)
+//            $0.centerX.equalToSuperview()
+//        }
     }
 
-    @objc private func deletedButtonTapped() {
-           delegate?.didTapDeletedButton(in: self)
-       }
+//    @objc private func deletedButtonTapped() {
+//           delegate?.didTapDeletedButton(in: self)
+//       }
 
 
     // MARK: - 데이터 구성

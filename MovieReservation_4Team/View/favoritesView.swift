@@ -12,7 +12,8 @@ class FavoritesView: UIView, UICollectionViewDataSource, UICollectionViewDelegat
     // 영화 데이터 저장
     var movieData: [CollectionViewData] = []
     private var selectedMovieId: Int?
-
+    var movieIds:[Int] = []
+    
     // CollectionViewData 구조체 정의
     struct CollectionViewData {
         let title: String
@@ -45,13 +46,13 @@ class FavoritesView: UIView, UICollectionViewDataSource, UICollectionViewDelegat
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCollectionView()
-        loadFavoriteMovies()
+//        loadFavoriteMovies()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupCollectionView()
-        loadFavoriteMovies()
+//        loadFavoriteMovies()
     }
 
     // 컬렉션 뷰 설정
@@ -65,26 +66,39 @@ class FavoritesView: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         }
     }
 
+    func settingMovie() {
+        guard let user = UserDataManager.shared.getCurrentLoggedInUser() else {
+          return
+        }
+        movieIds.removeAll()
+        if let favorites = user.favorites as? [FavoriteMovie] {
+          for i in favorites {
+            if let movieID = i.movieID, let id = Int(movieID) {
+              movieIds.append(id)
+            }
+          }
+        }
+      }
+    
     // 즐겨찾기 영화 로드
-    private func loadFavoriteMovies() {
-        let movieIDs = getUserFavoriteMovieIDs()
-        movieData = []
-
-        let group = DispatchGroup()
-        for movieID in movieIDs {
-            group.enter()
-            NetworkManager.shared.fetchMovieDetail(movieId: movieID) { movieDetail in
+    func loadFavoriteMovies() {
+        settingMovie()
+            movieData.removeAll()
+            let group = DispatchGroup()
+            for movieID in movieIds {
+              group.enter()
+              NetworkManager.shared.fetchMovieDetail(movieId: movieID) { movieDetail in
                 if let movieDetail = movieDetail {
-                    let data = CollectionViewData(from: movieDetail)
-                    self.movieData.append(data)
+                  let data = CollectionViewData(from: movieDetail)
+                  self.movieData.append(data)
                 }
                 group.leave()
+              }
             }
-        }
-        group.notify(queue: .main) {
-            self.collectionView.reloadData()
-        }
-    }
+            group.notify(queue: .main) {
+              self.collectionView.reloadData()
+            }
+          }
 
     func getUserFavoriteMovieIDs() -> [Int] {
         return [101, 102, 103, 104, 105, 106, 107, 108, 109]
@@ -126,6 +140,23 @@ class FavoritesView: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         }
     }
 
+    func deleteMovie(movieData: CollectionViewData) {
+       guard let user = UserDataManager.shared.getCurrentLoggedInUser() else {
+         print("로그인된 유저 정보를 찾을 수 없습니다.")
+         return
+       }
+       let movie = String(movieData.id) // 영화 ID를 문자열로 변환
+       if let favorites = user.favorites as? [FavoriteMovie] {
+         for i in favorites {
+           if let movieId = i.movieID, movie == movieId {
+             FavoriteManager.shared.deleteFavoriteMovie(favorite: i)
+             break
+           }
+         }
+       }
+       loadFavoriteMovies()
+     }
+    
     // 영화 상세 정보 화면 표시
     private func showMovieDetailViewController() {
         guard let movieId = selectedMovieId else { return }
