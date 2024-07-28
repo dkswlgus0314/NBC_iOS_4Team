@@ -108,6 +108,7 @@ class ReservaitionView: UIView {
     let deletedButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "xbutton"), for: .normal)
+        button.addTarget(self, action: #selector(deletedButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -190,6 +191,10 @@ class ReservaitionView: UIView {
             $0.centerX.equalToSuperview()
         }
     }
+
+    @objc private func deletedButtonTapped() {
+           delegate?.didTapDeletedButton(in: self)
+       }
 
 
     // MARK: - 데이터 구성

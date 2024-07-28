@@ -1,8 +1,14 @@
 import UIKit
 import SnapKit
 
-class ReservationController: UIViewController {
+protocol ReservaitionViewDelegate: AnyObject {
+    func didTapDeletedButton(in view: ReservaitionView)
+}
 
+class ReservationController: UIViewController {
+    
+    weak var delegate: ReservaitionViewDelegate?  // 델리게이트 프로퍼티
+    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal // 수평 스크롤 설정
