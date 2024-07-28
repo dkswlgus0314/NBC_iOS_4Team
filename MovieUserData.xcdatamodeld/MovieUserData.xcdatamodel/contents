@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23E214" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="FavoriteMovie" representedClassName="FavoriteMovie" syncable="YES">
         <attribute name="favoriteID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isLiked" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -20,7 +20,7 @@
         <attribute name="password" optional="YES" attributeType="String"/>
         <attribute name="phone" optional="YES" attributeType="String"/>
         <attribute name="userprofile" optional="YES" attributeType="Binary"/>
-        <relationship name="favorites" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FavoriteMovie" inverseName="user" inverseEntity="FavoriteMovie"/>
-        <relationship name="reservations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Reservationticket" inverseName="user" inverseEntity="Reservationticket"/>
+        <relationship name="favorites" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="FavoriteMovie" inverseName="user" inverseEntity="FavoriteMovie"/>
+        <relationship name="reservations" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Reservationticket" inverseName="user" inverseEntity="Reservationticket"/>
     </entity>
 </model>

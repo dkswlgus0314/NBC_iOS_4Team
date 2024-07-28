@@ -25,6 +25,7 @@
 		272ADB7A2C53980500748904 /* Reservationticket+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272ADB762C53980500748904 /* Reservationticket+CoreDataProperties.swift */; };
 		272ADB7B2C53980500748904 /* FavoriteMovie+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272ADB772C53980500748904 /* FavoriteMovie+CoreDataClass.swift */; };
 		272ADB7C2C53980500748904 /* FavoriteMovie+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272ADB782C53980500748904 /* FavoriteMovie+CoreDataProperties.swift */; };
+		2738B6282C55ED9100FC6CA8 /* reservationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2738B6272C55ED9100FC6CA8 /* reservationModel.swift */; };
 		273F56232C4F36E2004E251B /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273F56222C4F36E2004E251B /* UIColor+Hex.swift */; };
 		276B93D22C4E103C00170CBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276B93D12C4E103C00170CBF /* AppDelegate.swift */; };
 		276B93D42C4E103C00170CBF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276B93D32C4E103C00170CBF /* SceneDelegate.swift */; };
@@ -74,6 +75,7 @@
 		272ADB762C53980500748904 /* Reservationticket+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reservationticket+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		272ADB772C53980500748904 /* FavoriteMovie+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteMovie+CoreDataClass.swift"; sourceTree = "<group>"; };
 		272ADB782C53980500748904 /* FavoriteMovie+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteMovie+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2738B6272C55ED9100FC6CA8 /* reservationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reservationModel.swift; sourceTree = "<group>"; };
 		273F56222C4F36E2004E251B /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		276B93CE2C4E103C00170CBF /* MovieReservation_4Team.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieReservation_4Team.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		276B93D12C4E103C00170CBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				5F7278932C508D1E0033B94E /* NetworkManagerMock.swift */,
 				C26C08322C5088E6009F5B06 /* RecentSearches.swift */,
 				C29F6C502C537E470081FA15 /* Genre.swift */,
+				2738B6272C55ED9100FC6CA8 /* reservationModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				273F56232C4F36E2004E251B /* UIColor+Hex.swift in Sources */,
 				5F7278632C4F2FCB0033B94E /* NetworkManager.swift in Sources */,
 				C26C08372C509588009F5B06 /* CustomTableViewCell.swift in Sources */,
+				2738B6282C55ED9100FC6CA8 /* reservationModel.swift in Sources */,
 				270A84A82C4E549200B61721 /* SearchView.swift in Sources */,
 				276B93D22C4E103C00170CBF /* AppDelegate.swift in Sources */,
 				2703FCF32C552C22002D82A9 /* MovieUserData.xcdatamodeld in Sources */,
