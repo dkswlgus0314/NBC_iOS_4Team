@@ -21,8 +21,8 @@ extension UserData {
     @NSManaged public var id: String?
     @NSManaged public var password: String?
     @NSManaged public var userprofile: Data?
-    @NSManaged public var reservations: NSSet?
-    @NSManaged public var favorites: NSSet?
+    @NSManaged public var reservations: NSOrderedSet?
+    @NSManaged public var favorites: NSOrderedSet?
     @NSManaged public var isLoggedIn: Bool
 
 
@@ -34,10 +34,10 @@ extension UserData {
     @NSManaged public func removeFromReservations(_ value: Reservationticket)
 
     @objc(addReservations:)
-    @NSManaged public func addToReservations(_ values: NSSet)
+    @NSManaged public func addToReservations(_ values: NSOrderedSet)
 
     @objc(removeReservations:)
-    @NSManaged public func removeFromReservations(_ values: NSSet)
+    @NSManaged public func removeFromReservations(_ values: NSOrderedSet)
 
     // 즐겨찾기
     @objc(addFavoriteMoviesObject:)
@@ -47,10 +47,10 @@ extension UserData {
     @NSManaged public func removeFromFavoriteMovies(_ value: FavoriteMovie)
 
     @objc(addFavoriteMovies:)
-    @NSManaged public func addToFavoriteMovies(_ values: NSSet)
+    @NSManaged public func addToFavoriteMovies(_ values: NSOrderedSet)
 
     @objc(removeFavoriteMovies:)
-    @NSManaged public func removeFromFavoriteMovies(_ values: NSSet)
+    @NSManaged public func removeFromFavoriteMovies(_ values: NSOrderedSet)
 }
 
 extension UserData : Identifiable {}
