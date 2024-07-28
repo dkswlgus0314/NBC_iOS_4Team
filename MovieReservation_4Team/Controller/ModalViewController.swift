@@ -15,6 +15,7 @@ class ModalViewController: UIViewController {
     var numberOfPeople = 0 // 예매 인원 수량 카운트
     var reservationDate: String = ""  // 예매 날짜 및 시간
     
+    //Alert 창 눌렀을 때 Reservation 뷰컨으로 이동하는 클로저
     var pushReservation: (() -> Void)?
     
     //예매하기 버튼
@@ -263,34 +264,14 @@ class ModalViewController: UIViewController {
     //예매 완료 Alert
     private func reservationAlert() {
   
-        
         let alert = UIAlertController(title: "예매 완료", message: "예매 완료되었습니다.", preferredStyle: .alert)
-        
+        //[확인] 눌렀을 때 Alert 닫기
         let action = UIAlertAction(title: "확인", style: .default) { _ in
             self.dismiss(animated: true, completion: self.pushReservation)
-            
         }
         alert.addAction(action)
         
         self.present(alert, animated: true, completion: nil)
-        
-//        self.dismiss(animated: true, completion: nil)
-            // 모달 형태로 전환할 경우
-//            let reservationController = ReservationController()
-//            reservationController.modalPresentationStyle = .fullScreen
-//            self.present(reservationController, animated: true, completion: nil)
-//        pushReservation!()
-        
-            //네비게이션컨트롤러로 화면 전환활 경우
-//            if let navigationController = self.navigationController {
-//                let reservationController = ReservationController()
-//                navigationController.pushViewController(reservationController, animated: true)
-//            }
-//            if let viewController = self.parentViewController {
-//                viewController.present(movieDetailVC, animated: true, completion: nil)
-//            }
-        
-        
     }
     
     //수량이 0인 경우 경고 alert
