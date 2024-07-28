@@ -15,6 +15,7 @@ class ModalViewController: UIViewController {
     var numberOfPeople = 0 // 예매 인원 수량 카운트
     var reservationDate: String = ""  // 예매 날짜 및 시간
     
+    var pushReservation: (() -> Void)?
     
     //예매하기 버튼
     lazy var reservationButton: UIButton = {
@@ -62,7 +63,7 @@ class ModalViewController: UIViewController {
         label.textColor = UIColor.mainBlack
         return label
     }()
-
+    
     // + 버튼
     lazy var plusButton: UIButton = {
         let button = UIButton()
@@ -266,20 +267,20 @@ class ModalViewController: UIViewController {
         let alert = UIAlertController(title: "예매 완료", message: "예매 완료되었습니다.", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "확인", style: .default) { _ in
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true, completion: self.pushReservation)
             
         }
         alert.addAction(action)
         
         self.present(alert, animated: true, completion: nil)
         
-        self.dismiss(animated: true, completion: nil)
+//        self.dismiss(animated: true, completion: nil)
             // 모달 형태로 전환할 경우
 //            let reservationController = ReservationController()
 //            reservationController.modalPresentationStyle = .fullScreen
 //            self.present(reservationController, animated: true, completion: nil)
-            let reservationController = ReservationController()
-            self.navigationController?.pushViewController(reservationController, animated: true)
+//        pushReservation!()
+        
             //네비게이션컨트롤러로 화면 전환활 경우
 //            if let navigationController = self.navigationController {
 //                let reservationController = ReservationController()
