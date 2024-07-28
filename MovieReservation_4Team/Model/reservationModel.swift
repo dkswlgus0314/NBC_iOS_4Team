@@ -1,31 +1,28 @@
-//
-//  reservationModel.swift
-//  MovieReservation_4Team
-//
-//  Created by t2023-m0023 on 7/28/24.
-//
-
 import UIKit
 import CoreData
 
 class ReservationViewModel {
-    private var reservations: [Reservationticket] = []
+    var reservations: [(ReservaitionView.Reservation, UIImage?)] = []
 
-    func loadReservationData(completion: @escaping (UIImage?, ReservaitionView.Reservation?) -> Void) {
+    func loadReservationData(completion: @escaping () -> Void) {
         guard let userId = getCurrentUserId() else {
-            completion(nil, nil)
+            completion()
             return
         }
 
-        reservations = ReservationManager.shared.fetchReservations(for: userId)
+        let reservationTickets = ReservationManager.shared.fetchReservations(for: userId)
 
-        if reservations.isEmpty {
-            completion(nil, nil)
+        if reservationTickets.isEmpty {
+            completion()
         } else {
-            for reservation in reservations {
+            let dispatchGroup = DispatchGroup()
+            var loadedReservations: [(ReservaitionView.Reservation, UIImage?)] = []
+
+            for reservation in reservationTickets {
+                dispatchGroup.enter()
                 fetchMovieDetail(movieId: reservation.movieID ?? "") { movieDetail in
                     guard let movieDetail = movieDetail else {
-                        completion(nil, nil)
+                        dispatchGroup.leave()
                         return
                     }
 
@@ -36,9 +33,15 @@ class ReservationViewModel {
                             date: reservation.date,
                             quantity: Int(reservation.quantity)
                         )
-                        completion(image, reservationData)
+                        loadedReservations.append((reservationData, image))
+                        dispatchGroup.leave()
                     }
                 }
+            }
+
+            dispatchGroup.notify(queue: .main) {
+                self.reservations = loadedReservations
+                completion()
             }
         }
     }
