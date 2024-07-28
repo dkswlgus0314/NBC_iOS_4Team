@@ -1,125 +1,74 @@
-//
-//  ThirdViewController.swift
-//  MovieReservation_4Team
-//
-//  Created by t2023-m0112 on 7/23/24.
-//
 import UIKit
 import SnapKit
-import CoreData
+
+protocol ReservaitionViewDelegate: AnyObject {
+    func didTapDeletedButton(in view: ReservaitionView)
+}
 
 class ReservationController: UIViewController {
+    
+    weak var delegate: ReservaitionViewDelegate?  // 델리게이트 프로퍼티
+    
+    private let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal // 수평 스크롤 설정
+        layout.minimumLineSpacing = 20 // 셀 사이 간격 설정
 
-    private let reservaitionView: ReservaitionView = {
-        let view = ReservaitionView()
-        view.backgroundColor = UIColor.mainBlack
-        return view
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(ReservationCell.self, forCellWithReuseIdentifier: ReservationCell.identifier)
+        collectionView.backgroundColor = UIColor.mainBlack // 배경색 설정
+        return collectionView
     }()
+
+    private let viewModel = ReservationViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         title = "Reservation"
+        view.backgroundColor = UIColor.mainBlack // 전체 뷰의 배경색 설정
         setupUI()
-        configureView()
-        loadReservationData()
+        loadData()
     }
 
     private func setupUI() {
-        view.addSubview(reservaitionView)
-        reservaitionView.snp.makeConstraints {
+        view.addSubview(collectionView)
+        collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        collectionView.dataSource = self
+        collectionView.delegate = self
     }
 
-    private func configureView() {
-        let posterUrlString = "https://api.example.com/path/to/poster" // 포스터 이미지의 URL
-
-        NetworkManager.shared.loadImage(from: posterUrlString) { image in
+    private func loadData() {
+        viewModel.loadReservationData { [weak self] in
             DispatchQueue.main.async {
-                if let image = image {
-                    self.reservaitionView.configure(with: image)
-                    print("영화 포스터 이미지를 성공적으로 로드했습니다.")
-                } else {
-                    print("영화 포스터 이미지 로드에 실패했습니다.")
-                }
+                self?.collectionView.reloadData()
             }
         }
-    }
-
-    private func getCurrentUserId() -> String? {
-        let fetchRequest: NSFetchRequest<UserData> = UserData.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "isLoggedIn == %@", NSNumber(value: true))
-
-        do {
-            let results = try UserDataManager.shared.context.fetch(fetchRequest)
-            if let userId = results.first?.id {
-                print("로그인된 사용자 ID: \(userId)")
-                return userId
-            } else {
-                print("로그인된 사용자가 없습니다.")
-                return nil
-            }
-        } catch {
-            print("현재 사용자를 가져오는 데 실패했습니다: \(error)")
-            return nil
-        }
-    }
-
-    private func loadReservationData() {
-        guard let userId = getCurrentUserId() else {
-            print("로그인된 사용자를 찾을 수 없습니다.")
-            return
-        }
-
-        let reservations = ReservationManager.shared.fetchReservations(for: userId)
-
-        if reservations.isEmpty {
-            reservaitionView.updateReservationInfo(with: nil)
-            print("예매된 영화가 없습니다.")
-        } else {
-            for reservation in reservations {
-                fetchMovieDetail(movieId: reservation.movieID ?? "") { movieDetail in
-                    guard let movieDetail = movieDetail else {
-                        print("영화 세부 정보를 가져오는 데 실패했습니다.")
-                        return
-                    }
-
-                    let posterUrlString = "https://image.tmdb.org/t/p/w500\(movieDetail.posterPath ?? "")"
-
-                    NetworkManager.shared.loadImage(from: posterUrlString) { image in
-                        DispatchQueue.main.async {
-                            if let image = image {
-                                self.reservaitionView.configure(with: image)
-                                print("영화 포스터 이미지를 성공적으로 로드했습니다.")
-                            } else {
-                                print("영화 포스터 이미지 로드에 실패했습니다.")
-                            }
-                        }
-                    }
-
-                    DispatchQueue.main.async {
-                        // Reservationticket을 ReservaitionView.Reservation으로 변환
-                        let reservationData = ReservaitionView.Reservation(
-                            movieID: reservation.movieID,
-                            date: reservation.date,
-                            quantity: Int(reservation.quantity) // Core Data에서의 quantity는 Int32 타입입니다.
-                        )
-                        self.reservaitionView.updateReservationInfo(with: reservationData)
-                    }
-                }
-            }
-        }
-    }
-
-    private func fetchMovieDetail(movieId: String, completion: @escaping (MovieDetail?) -> Void) {
-        guard let movieIdInt = Int(movieId) else {
-            print("유효하지 않은 영화 ID: \(movieId)")
-            completion(nil)
-            return
-        }
-
-        NetworkManager.shared.fetchMovieDetail(movieId: movieIdInt, completion: completion)
     }
 }
 
-#Preview("ReservationController") { ReservationController() }
+extension ReservationController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.reservations.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReservationCell.identifier, for: indexPath) as? ReservationCell else {
+            return UICollectionViewCell()
+        }
+        let (reservation, image) = viewModel.reservations[indexPath.row]
+
+        cell.configure(with: reservation, movieImage: image)
+        cell.backgroundColor = .clear // 셀의 배경색을 투명하게 설정
+        
+        return cell
+    }
+}
+
+extension ReservationController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width - 40, height: collectionView.frame.height - 20) // 적절한 크기로 설정하세요
+    }
+}

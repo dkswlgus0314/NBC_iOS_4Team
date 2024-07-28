@@ -13,9 +13,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let userDataManager = UserDataManager.shared
 
         // 로그인 뷰 컨트롤러를 루트 뷰 컨트롤러로 설정
-        let loginViewController = LoginView()
-        let navigationController = UINavigationController(rootViewController: loginViewController)
-        window?.rootViewController = navigationController
+        if let user = userDataManager.getCurrentLoggedInUser() {
+            print("로그인 유저: \(user.id ?? "unknown")")
+            let tabBarController = TabBarController()
+            window?.rootViewController = tabBarController
+        } else {
+            print("로그인 유저 없음")
+            let loginViewController = LoginView()
+            let navigationController = UINavigationController(rootViewController: loginViewController)
+            window?.rootViewController = navigationController
+        }
+        
         window?.makeKeyAndVisible()
     }
 

@@ -105,6 +105,13 @@ class ReservaitionView: UIView {
         return label
     }()
 
+    let deletedButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "xbutton"), for: .normal)
+        button.addTarget(self, action: #selector(deletedButtonTapped), for: .touchUpInside)
+        return button
+    }()
+
 
     // MARK: - 초기화
     override init(frame: CGRect) {
@@ -127,13 +134,14 @@ class ReservaitionView: UIView {
             ticketQuantityLabel,
             separatorLine1,
             separatorLine2,
+            deletedButton
         ].forEach { self.addSubview($0) }
 
         ticketImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(130)
+            $0.top.equalToSuperview().offset(100)
             $0.leading.equalToSuperview().offset(25)
             $0.trailing.equalToSuperview().offset(-25)
-            $0.bottom.equalToSuperview().offset(-120)
+            $0.bottom.equalToSuperview().offset(-140)
         }
 
         movieImageView.snp.makeConstraints {
@@ -176,7 +184,17 @@ class ReservaitionView: UIView {
             $0.top.equalTo(dateLabel.snp.bottom).offset(16)
             $0.centerX.equalToSuperview()
         }
+
+        deletedButton.snp.makeConstraints {
+            $0.top.equalTo(ticketImageView.snp.bottom).offset(10)
+            $0.height.width.equalTo(35)
+            $0.centerX.equalToSuperview()
+        }
     }
+
+    @objc private func deletedButtonTapped() {
+           delegate?.didTapDeletedButton(in: self)
+       }
 
 
     // MARK: - 데이터 구성
