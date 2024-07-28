@@ -20,6 +20,9 @@ struct FontNames {
     static let mainFont: Font = Font(name: "LINESeedSansKR-Bold", size: 20.0)
     static let mainFont2: Font = Font(name: "LINESeedSansKR-Bold", size: 25.0)
     static let mainFont3: Font = Font(name: "LINESeedSansKR-Bold", size: 30.0)
+    static let mainFont4: Font = Font(name: "LINESeedSansKR-Bold", size: 18.0)
+    static let mainFont5: Font = Font(name: "LINESeedSansKR-Bold", size: 14.0)
+
 
     static let subFont: Font = Font(name: "LINESeedSansKR-Regular", size: 10.0)
     static let subFont2: Font = Font(name: "LINESeedSansKR-Regular", size: 15.0)

@@ -86,8 +86,8 @@ class ReservationView: UIView {
         let label = UILabel()
         label.text = "영화제목"
         label.textAlignment = .center
-        label.font = FontNames.mainFont.font()
-        label.textColor = UIColor.mainBlack
+        label.font = FontNames.mainFont4.font()
+        label.textColor = UIColor.mainRed
         return label
     }()
     
@@ -95,7 +95,7 @@ class ReservationView: UIView {
         let label = UILabel()
         label.text = "0월 0일 0시 0분"
         label.textAlignment = .center
-        label.font = FontNames.subFont2.font()
+        label.font = FontNames.mainFont5.font()
         label.textColor = UIColor.mainBlack
         label.numberOfLines = 0 // 여러 줄을 표시하도록 설정
         return label
@@ -149,14 +149,14 @@ class ReservationView: UIView {
         }
         
         movieImageView.snp.makeConstraints {
-            $0.top.equalTo(ticketImageView.snp.top).offset(20)
-            $0.leading.equalTo(ticketImageView.snp.leading).offset(36)
-            $0.trailing.equalTo(ticketImageView.snp.trailing).offset(-36)
+            $0.top.equalTo(ticketImageView.snp.top).offset(40)
+            $0.leading.equalTo(ticketImageView.snp.leading).offset(16)
+            $0.trailing.equalTo(ticketImageView.snp.trailing).offset(-16)
             $0.height.equalTo(movieImageView.snp.width).multipliedBy(1.2)
         }
         
         runTimeLabel.snp.makeConstraints {
-            $0.top.equalTo(movieImageView.snp.bottom).offset(60)
+            $0.top.equalTo(movieImageView.snp.bottom).offset(44)
             $0.centerX.equalToSuperview()
         }
         
