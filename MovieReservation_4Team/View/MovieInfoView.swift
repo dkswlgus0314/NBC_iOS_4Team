@@ -220,7 +220,7 @@ class MovieInfoView: UIView {
             $0.width.equalTo(80)
         }
         bottomStackView.snp.makeConstraints {
-            $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(4)
+            $0.bottom.equalTo(self.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview().inset(24)
         }
     }
