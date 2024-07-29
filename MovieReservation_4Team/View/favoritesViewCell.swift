@@ -5,7 +5,6 @@
 //  Created by t2023-m0023 on 7/24/24.
 //
 
-
 import UIKit
 import SnapKit
 
@@ -42,6 +41,8 @@ class FavoritesViewCell: UICollectionViewCell {
         label.textAlignment = .center
         label.font = FontNames.subFont2.font()  // 이 부분은 FontNames가 정의되어 있어야 합니다.
         label.textColor = UIColor.mainWhite
+        label.numberOfLines = 0 // 여러 줄 설정
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
 
@@ -74,24 +75,24 @@ class FavoritesViewCell: UICollectionViewCell {
         contentView.addSubview(favoriteButton)
 
         // 스냅킷을 사용한 오토레이아웃 설정
-        containerView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().inset(40)
+        containerView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(40)
         }
 
-        imageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        imageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
 
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(containerView.snp.bottom).offset(4)
-            make.centerX.equalTo(containerView)
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(containerView.snp.bottom).offset(4)
+            $0.leading.trailing.equalTo(containerView)
         }
 
-        favoriteButton.snp.makeConstraints { make in
-            make.bottom.equalTo(imageView.snp.bottom).inset(4)
-            make.trailing.equalTo(imageView.snp.trailing).inset(4)
-            make.width.height.equalTo(30)
+        favoriteButton.snp.makeConstraints {
+            $0.bottom.equalTo(imageView.snp.bottom).inset(4)
+            $0.trailing.equalTo(imageView.snp.trailing).inset(4)
+            $0.width.height.equalTo(30)
         }
     }
 
@@ -108,7 +109,7 @@ class FavoritesViewCell: UICollectionViewCell {
     @objc private func toggleFavorite() {
         favoriteButton.isSelected.toggle()
         delegate?.didToggleFavorite(cell: self)
-        print("toggleFavorite 호출됨") 
+        print("toggleFavorite 호출됨")
     }
 
     // 셀 데이터 설정

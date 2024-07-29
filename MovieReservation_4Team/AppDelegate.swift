@@ -27,6 +27,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ]
         UINavigationBar.appearance().titleTextAttributes = textAttributes
         UINavigationBar.appearance().barTintColor = UIColor.mainBlack
+        UINavigationBar.appearance().backgroundColor = UIColor.mainBlack
+        UINavigationBar.appearance().isTranslucent = false
+        
+        if #available(iOS 13.0, *) {
+                   let appearance = UINavigationBarAppearance()
+                   appearance.configureWithOpaqueBackground()
+                   appearance.backgroundColor = UIColor.mainBlack
+                   appearance.titleTextAttributes = [.foregroundColor: UIColor.mainRed, .font: FontNames.mainFont3.font() ?? UIFont.systemFont(ofSize: 30)]
+                   UINavigationBar.appearance().standardAppearance = appearance
+                   UINavigationBar.appearance().scrollEdgeAppearance = appearance
+               } else {
+                   UINavigationBar.appearance().barTintColor = UIColor.mainBlack
+                   UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.mainRed, .font: FontNames.mainFont3.font() ?? UIFont.systemFont(ofSize: 30)]
+               }
+        
 
         window = UIWindow(frame: UIScreen.main.bounds)
         

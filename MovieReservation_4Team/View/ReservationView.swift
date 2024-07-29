@@ -88,8 +88,10 @@ class ReservationView: UIView {
         label.textAlignment = .center
         label.font = FontNames.mainFont4.font()
         label.textColor = UIColor.mainRed
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         return label
-    }()
+      }()
     
     private let dateLabel: UILabel = {
         let label = UILabel()
@@ -142,21 +144,21 @@ class ReservationView: UIView {
         ].forEach { self.addSubview($0) }
         
         ticketImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(100)
-            $0.leading.equalToSuperview().offset(25)
-            $0.trailing.equalToSuperview().offset(-25)
-            $0.bottom.equalToSuperview().offset(-120)
+            $0.top.equalToSuperview().offset(0)
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.bottom.equalToSuperview().offset(-50)
         }
         
         movieImageView.snp.makeConstraints {
-            $0.top.equalTo(ticketImageView.snp.top).offset(40)
+            $0.top.equalTo(ticketImageView.snp.top).offset(30)
             $0.leading.equalTo(ticketImageView.snp.leading).offset(16)
             $0.trailing.equalTo(ticketImageView.snp.trailing).offset(-16)
             $0.height.equalTo(movieImageView.snp.width).multipliedBy(1.2)
         }
         
         runTimeLabel.snp.makeConstraints {
-            $0.top.equalTo(movieImageView.snp.bottom).offset(44)
+            $0.top.equalTo(movieImageView.snp.bottom).offset(40)
             $0.centerX.equalToSuperview()
         }
         
@@ -168,9 +170,11 @@ class ReservationView: UIView {
         }
         
         movieTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(separatorLine1.snp.bottom).offset(8)
-            $0.centerX.equalToSuperview()
-        }
+                   $0.top.equalTo(separatorLine1.snp.bottom).offset(8)
+                   $0.centerX.equalToSuperview()
+                   $0.leading.equalToSuperview().offset(20) // 좌측 여백 설정
+                   $0.trailing.equalToSuperview().offset(-20) // 우측 여백 설정
+               }
         
         separatorLine2.snp.makeConstraints {
             $0.top.equalTo(movieTitleLabel.snp.bottom).offset(8)
@@ -180,7 +184,7 @@ class ReservationView: UIView {
         }
         
         dateLabel.snp.makeConstraints {
-            $0.top.equalTo(separatorLine2.snp.bottom).offset(24)
+            $0.top.equalTo(separatorLine2.snp.bottom).offset(10)
             $0.centerX.equalToSuperview()
         }
         

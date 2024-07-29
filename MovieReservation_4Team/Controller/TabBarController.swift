@@ -14,6 +14,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         // 탭 바 배경색 설정
         tabBar.barTintColor = UIColor.mainBlack
+        tabBar.backgroundColor = UIColor.mainBlack
+        tabBar.isTranslucent = false
         tabBar.tintColor = UIColor.mainRed // 선택된 아이템 색상 설정
         tabBar.unselectedItemTintColor = UIColor.lightGray // 선택되지 않은 아이템 색상 설정
         
@@ -53,6 +55,13 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         guard let fromView = selectedViewController?.view, let toView = viewController.view else {
             return false
+        }
+
+        // Home 탭을 눌렀을 때 항상 처음 화면으로 이동하도록 처리
+        if viewController.tabBarItem.tag == 0 {
+            if let navController = viewController as? UINavigationController {
+                navController.popToRootViewController(animated: false)
+            }
         }
         
         if fromView != toView {

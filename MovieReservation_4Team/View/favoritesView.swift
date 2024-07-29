@@ -66,12 +66,12 @@ class FavoritesView: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         }
         movieIds.removeAll()
         if let favorites = FavoriteManager.shared.fetchFavoriteMovies(for: user) {
-                for favorite in favorites {
-                    if let movieID = favorite.movieID, let id = Int(movieID) {
-                        movieIds.append(id)
-                    }
+            for favorite in favorites {
+                if let movieID = favorite.movieID, let id = Int(movieID) {
+                    movieIds.append(id)
                 }
             }
+        }
     }
     
     // 즐겨찾기 영화 로드

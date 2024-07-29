@@ -15,6 +15,8 @@ class FavoritesViewController: UIViewController {
         self.title = "Wish list"
         NotificationCenter.default.addObserver(self, selector: #selector(movieInfoViewControllerDidDismiss), name: Notification.Name("MovieInfoViewControllerDidDismiss"), object: nil)
     }
+    
+    
     deinit {
         NotificationCenter.default.removeObserver(self, name: Notification.Name("MovieInfoViewControllerDidDismiss"), object: nil)
     }

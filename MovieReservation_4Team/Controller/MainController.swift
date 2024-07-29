@@ -1,6 +1,6 @@
 import UIKit
 
-class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIPickerViewDataSource, UIPickerViewDelegate {
+class MainViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIPickerViewDataSource, UIPickerViewDelegate, UIScrollViewDelegate {
     
     // MARK: - Properties
     private var movies: [Movie] = []
@@ -22,6 +22,8 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
     var pickerView: UIPickerView! // 장르 선택 피커 뷰
     var pickerToolbar: UIToolbar! // 피커 뷰 툴바
     
+    private var lastContentOffset: CGFloat = 0 // 마지막 스크롤 위치를 저장
+    
     // MARK: - View Lifecycle
     
     override func loadView() {
@@ -35,10 +37,11 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
         fetchData() // 데이터 가져오기
         startSlideTimer() // 타이머 시작
         
-        self.navigationItem.title = "NIGABOX" // 최상단 네비게이션 타이틀 명
-        
+        setupNavigationBarTitle() // 네비게이션 바 타이틀 설정
         setupProfileButton() // 프로필 이미지 버튼 설정
         setupCategoryButtonActions() // 카테고리 버튼 액션 설정
+        
+        mainView.scrollView.delegate = self // 스크롤 뷰 델리게이트 설정
     }
     
     func setupCollectionView() {
@@ -177,6 +180,17 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     // MARK: - Helper Methods
+    
+    func setupNavigationBarTitle() {
+           let titleLabel = UILabel()
+           titleLabel.text = "NIGABOX"
+           titleLabel.textColor = .mainRed
+           titleLabel.font = FontNames.mainFont2.font()
+           titleLabel.sizeToFit()
+           
+           let leftItem = UIBarButtonItem(customView: titleLabel)
+           navigationItem.leftBarButtonItem = leftItem
+       }
     
     func setupProfileButton() {
         let profileButton = UIButton(type: .custom)
@@ -367,7 +381,22 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView == mainView.firstCollectionView {
+        if scrollView == mainView.scrollView {
+            let offsetY = scrollView.contentOffset.y
+            
+            if offsetY > lastContentOffset && offsetY > 0 { // 스크롤을 아래로 내리는 중이고, offsetY가 0보다 클 때
+                UIView.animate(withDuration: 0.3) {
+                    self.navigationController?.setNavigationBarHidden(true, animated: true)
+                }
+                
+            } else if offsetY < lastContentOffset { // 스크롤을 위로 올리는 중
+                UIView.animate(withDuration: 0.3) {
+                    self.navigationController?.setNavigationBarHidden(false, animated: true)
+                }
+            }
+            
+            lastContentOffset = offsetY
+        } else if scrollView == mainView.firstCollectionView {
             updatePageLabel()
         }
     }
@@ -385,38 +414,20 @@ class MainViewController: UIViewController, UICollectionViewDataSource, UICollec
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return genres[row]
     }
-    
-    
-//    func showCategoryModal(title: String) {
-//        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .vertical
-//        layout.minimumInteritemSpacing = 10
-//        layout.minimumLineSpacing = 10
-//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        collectionView.backgroundColor = .mainBlack
-//        collectionView.dataSource = self
-//        collectionView.delegate = self
-//        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "CategoryCell")
-//        
-//        let modalViewController = UIViewController()
-//        modalViewController.view.backgroundColor = .mainBlack
-//        modalViewController.title = title
-//        modalViewController.view.addSubview(collectionView)
-//        
-//        collectionView.snp.makeConstraints { make in
-//            make.edges.equalTo(modalViewController.view.safeAreaLayoutGuide).inset(10)
-//        }
-//        
-//        let navController = UINavigationController(rootViewController: modalViewController)
-//        present(navController, animated: true, completion: nil)
-//        
-//        
-//        func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-//            let label = UILabel()
-//            label.text = genres[row]
-//            label.textAlignment = .center
-//            label.textColor = .mainWhite // 원하는 텍스트 색상으로 변경
-//            return label
-//        }
-//    }
+
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label: UILabel
+
+        if let reusedLabel = view as? UILabel {
+            label = reusedLabel
+        } else {
+            label = UILabel()
+        }
+
+        label.text = genres[row]
+        label.textColor = .mainWhite // 원하는 색으로 변경
+        label.textAlignment = .center
+
+        return label
+    }
 }

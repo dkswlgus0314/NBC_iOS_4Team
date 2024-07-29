@@ -10,7 +10,7 @@ class MainView: UIView {
         return scrollView
     }()
     
-    let contentView: UIView = { // MainView의 루트 뷰 역할을 하는 UIView, scrollView의 콘텐츠를 감쓰고 스크롤을 가능하게함, 이 안에는 first~fourth컬렉션뷰, first~third버튼이 있음.
+    let contentView: UIView = { // MainView의 루트 뷰 역할을 하는 UIView, scrollView의 콘텐츠를 감싸고 스크롤을 가능하게함, 이 안에는 first~fourth컬렉션뷰, first~third버튼이 있음.
         let view = UIView()
         return view
     }()

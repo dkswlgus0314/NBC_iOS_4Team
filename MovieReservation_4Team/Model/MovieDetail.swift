@@ -16,7 +16,7 @@ struct MovieDetail: Decodable {
     let voteAverage: Double
     let runtime: Int
     let posterPath: String?
-    let backdropPath: String? // 가로 이미지를 위한 추가 필드
+    let backdropPath: String?
     
     struct Genre: Decodable {
         let name: String
@@ -31,7 +31,7 @@ struct MovieDetail: Decodable {
         case voteAverage = "vote_average"
         case runtime
         case posterPath = "poster_path"
-        case backdropPath = "backdrop_path" // 추가된 가로 이미지 필드
+        case backdropPath = "backdrop_path"
     }
 }
 
