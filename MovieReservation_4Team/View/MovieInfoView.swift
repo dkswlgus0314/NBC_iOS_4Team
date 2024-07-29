@@ -129,7 +129,7 @@ class MovieInfoView: UIView {
     var reviewTableView: UITableView = {
         let tableVIew = UITableView()
         tableVIew.backgroundColor = .mainBlack
-        tableVIew.separatorStyle = .none
+//        tableVIew.separatorStyle = .none //셀 라인 없애기
         tableVIew.showsVerticalScrollIndicator = false
         return tableVIew
     }()
@@ -207,7 +207,7 @@ class MovieInfoView: UIView {
         reviewTableView.snp.makeConstraints {
             $0.top.equalTo(reviewLabel.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(24)
-            $0.height.equalTo(250)
+            $0.height.equalTo(600)
             $0.bottom.equalToSuperview()
         }
         reservationButton.snp.makeConstraints {
