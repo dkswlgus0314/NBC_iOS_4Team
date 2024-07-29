@@ -25,6 +25,12 @@ class ReviewCell: UITableViewCell {
         return label
     }()
     
+    private let seperator: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
     // 초기화 및 UI 구성
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -33,6 +39,7 @@ class ReviewCell: UITableViewCell {
         
         contentView.addSubview(authorLabel)
         contentView.addSubview(contentLabel)
+        contentView.addSubview(seperator)
         
         authorLabel.snp.makeConstraints {
             $0.top.equalTo(contentView.snp.top).offset(8)
@@ -47,11 +54,17 @@ class ReviewCell: UITableViewCell {
             $0.bottom.equalTo(contentView.snp.bottom).offset(-8)
         }
         
+        seperator.snp.makeConstraints { make in
+            make.height.equalTo(1)
+            make.bottom.equalTo(contentView)
+            make.trailing.leading.equalTo(contentView).inset(16)
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     // 리뷰 데이터로 셀 구성
     func configure(with review: Review) {

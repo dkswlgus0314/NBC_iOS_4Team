@@ -177,6 +177,7 @@ extension MovieInfoViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReviewCell", for: indexPath) as! ReviewCell
         let review = reviews[indexPath.row]
         cell.configure(with: review) // 셀에 데이터를 설정
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none //cell 선택시 선택효과 제거
         return cell
     }
     
