@@ -69,7 +69,7 @@ class SearchView: UIView {
         self.backgroundColor = UIColor.mainBlack
         [searchBar, recentSearchesLabel, horizontalCollectionView, searchResultsCollectionView].forEach { self.addSubview($0) }
         searchBar.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(100)
+            $0.top.equalToSuperview().offset(0)
             $0.leading.equalToSuperview().offset(8)
             $0.trailing.equalToSuperview().offset(-8)
         }
@@ -87,7 +87,7 @@ class SearchView: UIView {
             $0.leading.equalToSuperview().offset(8)
             $0.trailing.equalToSuperview().offset(-8)
             $0.top.equalTo(searchBar.snp.bottom).offset(10)
-            $0.bottom.equalToSuperview().offset(-85)
+            $0.bottom.equalToSuperview().offset(0)
         }
         horizontalCollectionView.dataSource = self
         horizontalCollectionView.delegate = self

@@ -12,7 +12,7 @@ class ReservationController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal // 수평 스크롤 설정
         layout.minimumLineSpacing = 10 // 셀 사이 간격 설정
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20) 
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ReservationCell.self, forCellWithReuseIdentifier: ReservationCell.identifier)

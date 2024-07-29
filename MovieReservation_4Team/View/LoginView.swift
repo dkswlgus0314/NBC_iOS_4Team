@@ -89,7 +89,7 @@ class LoginView: UIViewController {
     }
 
     private func setupViews() {
-        view.backgroundColor = UIColor.black
+        view.backgroundColor = UIColor.mainBlack
         view.addSubview(logoImageView)
         view.addSubview(containerView)
 

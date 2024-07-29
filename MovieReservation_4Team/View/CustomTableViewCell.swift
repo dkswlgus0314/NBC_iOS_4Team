@@ -8,7 +8,7 @@ class CustomTableViewCell: UITableViewCell {
     private let customTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.mainWhite // 텍스트 색상 설정
-        label.font = FontNames.mainFont.font() // 서브 폰트 설정
+        label.font = FontNames.mainFont4.font() // 서브 폰트 설정
         return label
     }()
     

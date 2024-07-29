@@ -126,7 +126,7 @@ class SignUpView: UIViewController, UIImagePickerControllerDelegate, UINavigatio
         profileImageView.snp.makeConstraints {
             $0.width.height.equalTo(140)
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(110)
+            $0.top.equalToSuperview().offset(10)
         }
 
         changeProfileButton.snp.makeConstraints {

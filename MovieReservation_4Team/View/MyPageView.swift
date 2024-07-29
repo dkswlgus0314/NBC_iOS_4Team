@@ -91,12 +91,12 @@ class MyPageView: UIView {
     private func setupConstraints() {
         informationLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(60)
+            $0.top.equalToSuperview().offset(0)
         }
 
         profileImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(informationLabel.snp.bottom).offset(50)
+            $0.top.equalTo(informationLabel.snp.bottom).offset(25)
             $0.width.height.equalTo(160)
         }
 
