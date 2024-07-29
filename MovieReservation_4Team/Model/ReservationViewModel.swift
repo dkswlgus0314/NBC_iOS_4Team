@@ -1,3 +1,11 @@
+//
+//  ReservationViewModel.swift
+//  MovieReservation_4Team
+//
+//  Created by Lee juhee on 7/24/24.
+//
+
+
 import UIKit
 import CoreData
 

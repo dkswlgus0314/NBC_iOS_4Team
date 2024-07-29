@@ -20,7 +20,7 @@ class LoginView: UIViewController {
     let idLabel: UILabel = {
         let label = UILabel()
         label.text = "ID"
-        label.textColor = UIColor.white
+        label.textColor = UIColor.mainWhite
         label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
@@ -29,14 +29,14 @@ class LoginView: UIViewController {
         let textField = UITextField()
         textField.placeholder = "아이디를 입력하세요"
         textField.borderStyle = .roundedRect
-        textField.backgroundColor = UIColor.white
+        textField.backgroundColor = UIColor.mainWhite
         return textField
     }()
 
     let passwordLabel: UILabel = {
         let label = UILabel()
         label.text = "Password"
-        label.textColor = UIColor.white
+        label.textColor = UIColor.mainWhite
         label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
@@ -45,7 +45,7 @@ class LoginView: UIViewController {
         let textField = UITextField()
         textField.placeholder = "비밀번호를 입력하세요"
         textField.borderStyle = .roundedRect
-        textField.backgroundColor = UIColor.white
+        textField.backgroundColor = UIColor.mainWhite
         textField.isSecureTextEntry = true // 비밀번호를 숨기기
         return textField
     }()
@@ -55,7 +55,7 @@ class LoginView: UIViewController {
     lazy var loginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Log In", for: .normal)
-        button.backgroundColor = UIColor.red
+        button.backgroundColor = UIColor.mainRed
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.setTitleColor(UIColor.white, for: .normal)
         button.layer.cornerRadius = 10
@@ -67,7 +67,7 @@ class LoginView: UIViewController {
         let button = UIButton()
         button.setTitle("Sign Up", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.mainWhite, for: .normal)
         button.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -77,7 +77,7 @@ class LoginView: UIViewController {
         view.backgroundColor = .clear
         view.layer.cornerRadius = 10
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.white.cgColor
+        view.layer.borderColor = UIColor.mainWhite.cgColor
         return view
     }()
 
@@ -104,12 +104,12 @@ class LoginView: UIViewController {
     private func configureUI() {
         logoImageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(140)
+            $0.top.equalToSuperview().offset(50)
             $0.width.equalTo(330)
         }
 
         containerView.snp.makeConstraints {
-            $0.top.equalTo(logoImageView.snp.bottom).offset(50)
+            $0.top.equalTo(logoImageView.snp.bottom).offset(80)
             $0.centerX.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(340)
