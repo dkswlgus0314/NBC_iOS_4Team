@@ -1,7 +1,8 @@
 import UIKit
 import SnapKit
 
-class SignUpView: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SignUpView: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+
 
     var isUpdating: Bool = false
 
@@ -101,6 +102,7 @@ class SignUpView: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        hpTextField.delegate = self // Add this line to set the delegate for hpTextField
         if isUpdating {
             fetchUserData() // Load user data if updating
         }
@@ -264,5 +266,27 @@ class SignUpView: UIViewController, UIImagePickerControllerDelegate, UINavigatio
             showAlertForLoginFailure(message: "로그인된 사용자 정보가 없습니다.")
         }
     }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+           if textField == hpTextField {
+               guard let text = textField.text else { return true }
+               let newString = (text as NSString).replacingCharacters(in: range, with: string)
+               textField.text = formatPhoneNumber(newString)
+               return false
+           }
+           return true
+       }
+
+       private func formatPhoneNumber(_ phoneNumber: String) -> String {
+           let digits = phoneNumber.filter { $0.isNumber }
+           var result = ""
+           for (index, digit) in digits.enumerated() {
+               if index == 3 || index == 7 {
+                   result.append("-")
+               }
+               result.append(digit)
+           }
+           return result
+       }
 }
 
