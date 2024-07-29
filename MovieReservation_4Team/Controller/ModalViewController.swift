@@ -14,6 +14,7 @@ class ModalViewController: UIViewController {
     var userMovieId: Int?   //0이면 에러처리도 해볼 것. ->  if let/ guard let
     var numberOfPeople = 0 // 예매 인원 수량 카운트
     var reservationDate: String = ""  // 예매 날짜 및 시간
+
     
     //Alert 창 눌렀을 때 Reservation 뷰컨으로 이동하는 클로저
     var pushReservation: (() -> Void)?
@@ -113,6 +114,7 @@ class ModalViewController: UIViewController {
         
         // DatePicker의 날짜 범위 설정
         setDatePickerRange()
+               
     }
     
     // DatePicker의 최대 날짜와 최소 날짜
@@ -285,6 +287,4 @@ class ModalViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 }
-
-#Preview("ModalViewController") {ModalViewController()}
 

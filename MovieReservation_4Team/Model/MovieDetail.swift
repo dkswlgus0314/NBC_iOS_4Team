@@ -34,3 +34,7 @@ struct MovieDetail: Decodable {
         case backdropPath = "backdrop_path"
     }
 }
+
+
+
+

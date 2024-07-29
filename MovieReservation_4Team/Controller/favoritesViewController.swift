@@ -26,8 +26,8 @@ class FavoritesViewController: UIViewController {
     }
     private func setupFavoritesView() {
         view.addSubview(favoritesView)
-        favoritesView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+        favoritesView.snp.makeConstraints {
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
     override func viewWillAppear(_ animated: Bool) {
