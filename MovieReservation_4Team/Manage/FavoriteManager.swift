@@ -11,26 +11,14 @@ import UIKit
 
 // 사용자의 즐겨찾기 영화를 관리하는 클래스
 class FavoriteManager {
-    //<<<<<[CoreData를 쓴다면 공통으로 들아갈 부분들]🌟🌟🌟🌟🌟🌟🌟🌟
+
     static let shared = FavoriteManager()
-    //    private let userDataManager = UserDataManager.shared
-    
     private init() {}
     
     var persistentContainer: NSPersistentContainer {
         return (UIApplication.shared.delegate as! AppDelegate).persistentContainer
     }
-    
-    // MARK: - Core Data stack
-    //    lazy var persistentContainer: NSPersistentContainer = {
-    //            let container = NSPersistentContainer(name: "MovieUserData") //🌟🌟🌟
-    //            container.loadPersistentStores { storeDescription, error in
-    //                if let error = error as NSError? {
-    //                    fatalError("Unresolved error \(error), \(error.userInfo)")
-    //                }
-    //            }
-    //            return container
-    //        }()
+
     
     // MARK: - Core Data Saving support
     func saveContext() {
@@ -54,7 +42,6 @@ class FavoriteManager {
         favoriteMovie.movieID = movieID
         favoriteMovie.isLiked = false
         favoriteMovie.user = user
-        fetchFavoriteMovies(for: user)
         saveContext()
     }
     
@@ -74,8 +61,7 @@ class FavoriteManager {
         
         do {
             let favoriteMovies = try context.fetch(fetchRequest)
-//            print("🔥fetchFavoriteMovies: \(favoriteMovies)")
-            
+
             // favoriteMovies의 movieID 배열 생성
                    let movieIDs = favoriteMovies.compactMap { $0.movieID }
                    print("🔥 Favorite Movie IDs: \(movieIDs)")

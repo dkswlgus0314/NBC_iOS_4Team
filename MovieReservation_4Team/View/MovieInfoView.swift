@@ -9,8 +9,6 @@ import SnapKit
 
 
 class MovieInfoView: UIView {
-    //    let movieInfVC = MovieInfoViewController()
-    
     // 스크롤뷰
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -91,6 +89,14 @@ class MovieInfoView: UIView {
         button.addTarget(self, action: #selector(moreButtonTapped), for: .touchDown)
         return button
     }()
+    //리뷰 테이블뷰 라벨
+    var reviewLabel: UILabel = {
+        let label = UILabel()
+        label.text = "🌟영화 리뷰"
+        label.textColor = UIColor.mainWhite
+        label.font = FontNames.mainFont2.font()
+        return label
+    }()
     //예매하기 버튼
     lazy var reservationButton: UIButton = {
         let button = UIButton()
@@ -119,6 +125,14 @@ class MovieInfoView: UIView {
         stackView.spacing = 8
         return stackView
     }()
+    //리뷰 테이블뷰
+    var reviewTableView: UITableView = {
+        let tableVIew = UITableView()
+        tableVIew.backgroundColor = .mainBlack
+        tableVIew.separatorStyle = .none
+        tableVIew.showsVerticalScrollIndicator = false
+        return tableVIew
+    }()
     
     //MARK: -init
     override init(frame: CGRect) {
@@ -128,13 +142,11 @@ class MovieInfoView: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder) // 'super.init(coder: coder)' 호출 추가
-        //        configureUI()
     }
     
     //MARK: -메서드
     private func configureUI(){
         self.backgroundColor = UIColor.mainBlack
-        
         
         //상단 라벨 StackView에 추가
         [reviewScoreLabel,openingDateLabel,
@@ -150,6 +162,8 @@ class MovieInfoView: UIView {
          infoStackView,
          descriptionLabel,
          moreButton,
+         reviewLabel,
+         reviewTableView,
          bottomStackView].forEach { scrollView.addSubview($0) }
         
         //스크롤뷰
@@ -180,13 +194,21 @@ class MovieInfoView: UIView {
         descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(infoStackView.snp.bottom).offset(24)
             $0.trailing.leading.equalToSuperview().inset(24)
-            //      $0.height.equalTo(100)
         }
         moreButton.snp.makeConstraints {
             $0.top.equalTo(descriptionLabel.snp.bottom)
             $0.trailing.equalTo(descriptionLabel.snp.trailing)
-            $0.bottom.equalToSuperview().inset(50)
-            //$0.bottom.equalTo(self.safeAreaLayoutGuide)
+
+        }
+        reviewLabel.snp.makeConstraints {
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(50)
+            $0.leading.trailing.equalToSuperview().inset(24)
+        }
+        reviewTableView.snp.makeConstraints {
+            $0.top.equalTo(reviewLabel.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.height.equalTo(250)
+            $0.bottom.equalToSuperview()
         }
         reservationButton.snp.makeConstraints {
             $0.leading.equalToSuperview()

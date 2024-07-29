@@ -20,3 +20,6 @@ struct Movie: Codable {
         case backdropPath = "backdrop_path"
     }
 }
+
+
+

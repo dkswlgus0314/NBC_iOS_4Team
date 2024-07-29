@@ -34,3 +34,7 @@ struct MovieDetail: Decodable {
         case backdropPath = "backdrop_path" // 추가된 가로 이미지 필드
     }
 }
+
+
+
+
