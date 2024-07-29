@@ -110,16 +110,26 @@ extension ReservationController: ReservationViewDelegate {
 
         let reservation = viewModel.reservations[indexPath.row].0
 
-        // CoreData에서 예약 삭제
-        if let reservationToDelete = fetchReservationByUUID(uuid: reservation.reservationID) {
-            print("삭제할 예약: \(reservationToDelete.reservationID?.uuidString ?? "unknown")") // 💖 삭제할 예약 확인
-            ReservationManager.shared.removeReservation(reservationToDelete)
+        let alertController = UIAlertController(title: "예매 취소", message: "예매를 취소 하시겠습니까?", preferredStyle: .alert)
+
+        let cancelAction = UIAlertAction(title: "아니오", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "예매취소", style: .destructive) { _ in
+            // CoreData에서 예약 삭제
+            if let reservationToDelete = self.fetchReservationByUUID(uuid: reservation.reservationID) {
+                print("삭제할 예약: \(reservationToDelete.reservationID?.uuidString ?? "unknown")") // 💖 삭제할 예약 확인
+                ReservationManager.shared.removeReservation(reservationToDelete)
+            }
+
+            // ViewModel에서 예약 삭제 및 컬렉션 뷰 갱신
+            self.viewModel.reservations.remove(at: indexPath.row)
+            self.collectionView.deleteItems(at: [indexPath])
+
+            print("삭제 후 남은 예약: \(self.viewModel.reservations.map { $0.0.reservationID.uuidString ?? "unknown" })") // 💖 삭제 후 남은 예약 확인
         }
 
-        // ViewModel에서 예약 삭제 및 컬렉션 뷰 갱신
-        viewModel.reservations.remove(at: indexPath.row)
-        collectionView.deleteItems(at: [indexPath])
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
 
-        print("삭제 후 남은 예약: \(viewModel.reservations.map { $0.0.reservationID.uuidString ?? "unknown" })") // 💖 삭제 후 남은 예약 확인
+        present(alertController, animated: true, completion: nil)
     }
 }
