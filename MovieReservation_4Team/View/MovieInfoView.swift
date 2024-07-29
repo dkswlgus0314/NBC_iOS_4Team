@@ -95,6 +95,7 @@ class MovieInfoView: UIView {
         label.text = "🌟영화 리뷰"
         label.textColor = UIColor.mainWhite
         label.font = FontNames.mainFont2.font()
+    
         return label
     }()
     //예매하기 버튼
@@ -129,7 +130,7 @@ class MovieInfoView: UIView {
     var reviewTableView: UITableView = {
         let tableVIew = UITableView()
         tableVIew.backgroundColor = .mainBlack
-//        tableVIew.separatorStyle = .none //셀 라인 없애기
+        tableVIew.separatorStyle = .none //셀 라인 없애기
         tableVIew.showsVerticalScrollIndicator = false
         return tableVIew
     }()
@@ -208,7 +209,7 @@ class MovieInfoView: UIView {
             $0.top.equalTo(reviewLabel.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(600)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(70)
         }
         reservationButton.snp.makeConstraints {
             $0.leading.equalToSuperview()
