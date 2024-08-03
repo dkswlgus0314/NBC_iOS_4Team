@@ -10,7 +10,7 @@
 <br>
 
 ### 📹 시연 영상
-
+![Simulator Screen Recording - iPhone 15 Pro - 2024-08-03 at 19 46 16](https://github.com/user-attachments/assets/0d23186d-6dea-40d5-8760-9c17aa933e4d)
 
 
 
